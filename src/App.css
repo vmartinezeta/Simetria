@@ -1,0 +1,86 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #fff;
+  min-height: 100vh;
+}
+
+.app {
+  background: #000;
+  width: 780px;
+  height: 620px;
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  padding: 10px;
+}
+
+.main {
+  width: 100%;
+  height: 500px;
+  background: #eee;
+  margin-top: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+}
+
+.tabla {
+  width: 340px;
+  height: 340px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.tabla__invertida {
+  flex-direction: row-reverse;
+}
+
+.cell {
+  width: 60px;
+  height: 60px;
+  background: orange;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 26px;
+}
+
+.cell__marcado {
+  background: royalblue;
+}
+
+.cell__fail {
+  background: red;
+}
+
+.intentos {
+  color: #fff;
+  display: flex;
+  align-items: center;
+}
+
+.intentos__circulo {
+  margin-left: 10px;
+  font-size: 24px;
+  display: flex;
+  height: 40px;
+  width: 40px;
+  background: #fff;
+  color: #000;
+  border-radius: 50%;
+  justify-content: center;
+  align-items: center;
+}
+
+.mensaje {
+  text-align: center;
+  color: #fff;
+  font-size: 2.5em;
+}
