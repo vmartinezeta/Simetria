@@ -84,3 +84,21 @@ body {
   color: #fff;
   font-size: 2.5em;
 }
+
+.tiempo {
+  color: #000;
+  width: 85px;
+  background: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.topbar {
+  display: flex;
+  justify-content: space-around;
+}
+
+.nivel {
+  color: #fff;
+}

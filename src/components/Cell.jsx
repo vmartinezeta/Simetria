@@ -10,7 +10,6 @@ const Cell = ({ cell, editable = true }) => {
         estado.push("cell__fail")
     }
 
-
     const onUpdateCell = (cell) => {
         if (completado()) {
             return

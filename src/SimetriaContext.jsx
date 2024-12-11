@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useRef, useState } from "react";
 
 const SimetriaContext = createContext()
 
@@ -17,6 +17,10 @@ export default function SimetriaProvider({ children }) {
     const [leftCells, setLeftCells] = useState([])
     const [rightCells, setRightCells] = useState([])
     const [intentos, setIntentos] = useState(5)
+    const [tiempo, setTiempo] = useState(30)
+    const timer = useRef(null)
+    const [nivel, setNivel] = useState(1)
+    const [ganador, setGanador] = useState(false)
 
     const crear = () => {
         const vector = []
@@ -48,6 +52,17 @@ export default function SimetriaProvider({ children }) {
         setRightCells(vector.map(cell => ({ ...cell, marcado: true })))
     }
 
+
+    const siguienteNivel = () => {
+        if (nivel === 3) return
+        setNivel(nivel + 1)
+    }
+
+    const updateTiempo = () => {
+        if (tiempo === 0) return
+        setTiempo(tiempo - 1)
+    }
+
     const updateCell = (cell) => {
         if (!cell.correcta && intentos > 0) {
             setIntentos(intentos - 1)
@@ -59,22 +74,38 @@ export default function SimetriaProvider({ children }) {
 
     const completado = () => {
         return leftCells.filter(cell => cell.marcado && cell.correcta).length === CELDAS_MARCADAS
-            || intentos === 0
+            || intentos === 0 || tiempo === 0
     }
 
     const hayGanador = () => {
-        return intentos !== 0
+        const ganador = completado() && intentos > 0 && tiempo>0
+        setGanador(ganador)
+        return ganador
+    }
+
+    const reset = () => {
+        crear()
+        setGanador(false)
+        setIntentos(5)
+        setTiempo(30)
     }
 
     return <SimetriaContext.Provider
         value={{
+            tiempo,
             intentos,
-            crear,
+            ganador,
             leftCells,
             rightCells,
+            timer,
+            nivel,
+            crear,
+            reset,
+            siguienteNivel,
             hayGanador,
             updateCell,
-            completado
+            completado,
+            updateTiempo
         }}
     >
         {children}
