@@ -2,7 +2,7 @@ import { useSimetria } from "../SimetriaContext"
 
 
 const Cell = ({ cell, editable = true }) => {
-    const { completado, updateCell } = useSimetria()
+    const {hayGanador, finalizo, updateCell } = useSimetria()
     const estado = ["cell"]
     if (cell.marcado && cell.correcta) {
         estado.push("cell__marcado")
@@ -11,15 +11,16 @@ const Cell = ({ cell, editable = true }) => {
     }
 
     const onUpdateCell = (cell) => {
-        if (completado()) {
+        if (finalizo()) {
             return
         }
         cell.marcado = true
+        hayGanador()
         updateCell(cell)
     }
 
     return <div
-        onClick={() => editable ? onUpdateCell(cell) : undefined}
+        onClick={() => editable && !finalizo() ? onUpdateCell(cell) : undefined}
         className={estado.join(" ")}></div>
 }
 

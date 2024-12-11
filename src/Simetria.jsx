@@ -5,14 +5,17 @@ import Cell from "./components/Cell"
 import Mensaje from "./components/Mensaje"
 
 const Simetria = () => {
-    const { reset, ganador, siguienteNivel, hayGanador, nivel, updateTiempo, timer, tiempo, completado, intentos, leftCells, rightCells, crear } = useSimetria()
+    const { finalizo, ultimoNivel, reset, ganador, siguienteNivel, nivel, updateTiempo, timer, tiempo, intentos, leftCells, rightCells, crear } = useSimetria()
 
     useEffect(() => {
         crear()
     }, [])
 
     useEffect(() => {
-        if (nivel===3) return
+        if (finalizo()) {
+            clearInterval(timer.current)
+            return
+        }
         timer.current = setInterval(() => {
             updateTiempo()
         }, 1000)
@@ -22,20 +25,20 @@ const Simetria = () => {
         }
     }, [tiempo, ganador])
 
-
     useEffect(() => {
-        let timer = null
-        if (hayGanador()&& nivel<3) {
-            siguienteNivel()
-            timer = setInterval(() => {
-                reset()
-            }, 3000)
+        if (ganador) {
+            clearInterval(timer.current)
         }
+        let interval = ganador && !ultimoNivel() && setInterval(() => {
+            siguienteNivel()
+            reset()
+        }, 3000)
 
         return () => {
-            clearInterval(timer)
+            clearInterval(interval)
         }
     }, [ganador])
+
 
     const rellenarDecena = (value, defaultValue = "0") => {
         if (value < 10) {
@@ -51,7 +54,7 @@ const Simetria = () => {
     return <div className="app">
         <div className="topbar">
             <h1 className="intentos">intentos <span className="intentos__circulo">{intentos}</span></h1>
-            <h1 className="nivel">{nivel}</h1>
+            <h1 className="nivel">{nivel + 1}</h1>
             <div className="tiempo">
                 <h1 className="tiempo__titulo">{formatearTiempo()}</h1>
             </div>

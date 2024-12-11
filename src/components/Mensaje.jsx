@@ -1,15 +1,11 @@
 import { useSimetria } from "../SimetriaContext"
 
-const Mensaje = () => {
-    const {timer, completado, hayGanador} = useSimetria()
+function Mensaje() {
+    const {finalizo, ganador} = useSimetria()
 
-    if (completado()) {
-       clearInterval(timer.current)
-    }
-
-    if (completado() && hayGanador()) {
+    if (ganador) {
         return <h1 className="mensaje">Haz Ganado.</h1>
-    } else if (completado() && !hayGanador()) {
+    } else if (finalizo()) {
         return <h1 className="mensaje">Haz perdido.</h1>
     }
     return null
